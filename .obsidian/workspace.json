@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Kubernetes/Istio/Notes.md",
+                "file": "OS development/Bootloader.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Kubernetes/Istio/Notes.md",
+                "file": "OS development/Bootloader.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Kubernetes/Istio/Notes.md",
+                "file": "OS development/Bootloader.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Kubernetes/Istio/Notes.md"
+                "file": "OS development/Bootloader.md"
               }
             }
           }
@@ -148,7 +148,11 @@
   },
   "active": "f7e616d5b4062f68",
   "lastOpenFiles": [
+    "Kubernetes/Kong/Notes.md",
+    "OS development/Bootloader.md",
+    "OS development",
     "Kubernetes/Istio/Notes.md",
+    "Kubernetes/Kong",
     "Welcome.md",
     "Kubernetes/Istio",
     "Kubernetes"

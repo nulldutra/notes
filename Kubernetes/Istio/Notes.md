@@ -48,6 +48,128 @@ A configuração dos proxies é configurada automaticamente por um serviço cham
 		                              -------> Destination rule (v2) -> Workload v2
 
 <hr>
-## Canary deploy
+## Traffic shifting
 
+A configuração do traffic shifting é realizada através do virtual service, por exemplo:
+
+```
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: hello
+spec:
+  hosts:
+  - "hello"
+  http:
+  - route:
+    - destination:
+        host: hello
+        subset: v1
+      weight: 80
+    - destination:
+        host: hello
+        subset: v2
+      weight: 20
+```
+
+```yaml
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: hello
+spec:
+  host: hello
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+```
+
+## Tipo de load balancers no ingress
+
+No ingress, podemos especificar o time de load balancer que sera utilizado, o default é o algoritmo round robin.
+
+```yaml
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: hello
+spec:
+  host: hello
+  trafficPolicy:
+	loadBalancer:
+	  simple: ROUND_ROBIN
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
+```
+
+Também é possível implementar traffic policy nos subets.
+
+```yaml
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: hello
+spec:
+  host: hello
+  trafficPolicy:
+	loadBalancer:
+	  simple: ROUND_ROBIN
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+    trafficPolicy:
+	  loadBalancer:
+	    simple: LEST_CONN
+
+  - name: v2
+    labels:
+      version: v2
+```
+
+## Stick session e consistent hash
+
+Podemos usar o conceito de consistent hash, que a partir disso, mantem os usuários acessando a mesma versão, fazendo que a experiência se mantenha.
+
+OBS: Consistent hash não funciona com traffic shifting
+
+Podemos usar consistent hash com base nas seguintes informações:
+
+* httpHeaderName
+* httpCookie
+* UseSourceIP
+* httpQueryParameterName
+
+```yaml
+
+```
+
+## Fault injection
+
+Podemos utilizar o conceito de fault injection para simular falhas nos serviços.
+
+## Circuit breaker
+
+Circuit breaker permite cortar a conexão com microsservico que está causando gargalo.
+
+Exemplo: Funciona como um disjuntor, quando recebe mais garga do que aguenta, ele corta o circuito.
+
+<hr>
+
+## Gateways
+
+O gateway no istio é a borda do cluster. O gateway também possui um sidecard, possibilidando termos controle total do tráfego de rede.
 
